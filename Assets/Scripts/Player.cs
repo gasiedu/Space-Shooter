@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    //public or private referance
-    //data type (int, float, bool, strings)
-    //everu vaiable has a name
-    //optional value assigned
-
-    private float _speed = 5.5f;
+    private float _speed = 7.5f;
 
     public float horizontalInput;
+    [SerializeField]
+    private GameObject _laserPrefab;
+
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +22,15 @@ public class Player : MonoBehaviour
     void Update()
     {
         CalculateMovement();
+
+        //if i hit the space key 
+        //spawn gameObject
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
+
+        }
     }
 
     void CalculateMovement()
@@ -34,11 +41,11 @@ public class Player : MonoBehaviour
         transform.Translate(Vector3.right * horizontalInput * _speed * Time.deltaTime);
         transform.Translate(Vector3.up * verticalInput * _speed * Time.deltaTime);
 
-        if (transform.position.y > 0)
+        if (transform.position.y > 3.8f)
         {
             transform.position = new Vector3(transform.position.x, 3.8f, 0);
         }
-        else if (transform.position.y < 3.8f)
+        else if (transform.position.y < -3.8f)
         {
             transform.position = new Vector3(transform.position.x, -3.8f, 0);
         }
