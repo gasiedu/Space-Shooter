@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
-        private int LaserSpeed = 8;
+    [SerializeField]
+    private int LaserSpeed = 8;
     
     // Update is called once per frame
     void Update()
@@ -12,8 +13,15 @@ public class Laser : MonoBehaviour
        
         transform.Translate(Vector3.up * LaserSpeed * Time.deltaTime);
             
-        if (transform.position.y > 8)
-        { Destroy(gameObject); }
+        if (transform.position.y >= 8f)
+        {
+            if (transform.parent != null)
+            {
+                Destroy(transform.parent.gameObject);
+            }
+            Destroy(gameObject);
+        }
+                
 
      }
 }
