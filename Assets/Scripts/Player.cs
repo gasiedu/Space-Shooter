@@ -18,6 +18,11 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int _lives = 3;
     private SpawnManager _spawnManager;
+
+    private GameObject _thruster;
+    private GameObject _afterburner;
+    private bool _afterburnersOn = false;
+
     [SerializeField]
     private GameObject _Tripleshotprefab;
     [SerializeField]
@@ -26,7 +31,6 @@ public class Player : MonoBehaviour
     private bool _isSpeedPowerupActive = false;
     [SerializeField]
     private bool _isShieldActive = false;
-
     [SerializeField]
     private GameObject _ShieldVisual;
 
@@ -65,6 +69,18 @@ public class Player : MonoBehaviour
             _audioSource.clip = _laserAudio;
         }
 
+        _thruster = gameObject.transform.Find("Thruster").gameObject;
+        if (_thruster == null)
+        {
+            Debug.LogError("Thruster is nuill in Player");
+        }
+
+        _afterburner = gameObject.transform.Find("Afterburner").gameObject;
+        if (_afterburner == null)
+        {
+            Debug.LogError("After Burner is null in player");
+        }
+
 
     }
 
@@ -77,6 +93,28 @@ public class Player : MonoBehaviour
         {
             FireLaser();
         }
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            if (_afterburnersOn == false)
+            {
+                _speed *= 2f;
+                _afterburner.SetActive(true);
+                _thruster.SetActive(false);
+                _afterburnersOn = true;
+            }
+        }
+        else
+        {
+            if (_afterburnersOn == true)
+            {
+                _speed /= 2f;
+                _afterburnersOn = false;
+                _afterburner.SetActive(false);
+                _thruster.SetActive(true);
+            }
+        }
+       
 
     }
 
